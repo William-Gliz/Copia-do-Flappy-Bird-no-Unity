@@ -15,13 +15,4 @@ public class GameAssets : MonoBehaviour {
 
     public Transform pipeBody;
 
-    public SoundAudioClip[] soundAudioClipArray;
-
-    [Serializable]
-    public class SoundAudioClip
-    {
-        public SoundManager.Sound sound;
-        public AudioClip audioClip;
-    }
-
 }
