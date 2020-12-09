@@ -53,6 +53,7 @@ public class Bird : MonoBehaviour {
                     rb.bodyType = RigidbodyType2D.Dynamic;
                     Jump();
                     if (OnStartedPlaying != null) OnStartedPlaying(this, EventArgs.Empty);
+                    FindObjectOfType<AudioManager>().Play(AudioManager.Sounds.Tema);
                 }
                 break;
             case State.Playing:
@@ -69,13 +70,14 @@ public class Bird : MonoBehaviour {
     
     private void Jump() {
         rb.velocity = Vector2.up * jump_force;
-        SoundManager.PlaySound(SoundManager.Sound.BirdJump);
+        FindObjectOfType<AudioManager>().Play(AudioManager.Sounds.BirdJump);
     }
 
     private void OnTriggerEnter2D(Collider2D collider) {
         Debug.Log("Morri");
         Debug.Log(collider.name);
-        SoundManager.PlaySound(SoundManager.Sound.Lose);
+        FindObjectOfType<AudioManager>().Stop(AudioManager.Sounds.Tema);
+        FindObjectOfType<AudioManager>().Play(AudioManager.Sounds.Lose);
         rb.bodyType = RigidbodyType2D.Static;
         if (OnDied != null) OnDied(this, EventArgs.Empty);
     }

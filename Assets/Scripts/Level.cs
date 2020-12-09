@@ -44,7 +44,6 @@ public enum Difficulty {
         pipeList = new List<Pipe>();
         SetDifficulty(Difficulty.Easy);
         state = State.WaitingToStart;
-        SoundManager.PlaySound(SoundManager.Sound.Tema);
     }
 
     private void Start() {
@@ -96,7 +95,7 @@ public enum Difficulty {
             if (isToTheRightOfBird && pipe.GetXPosition() <= Bird_position && pipe.IsBottom()) {
                 // Pipe passed Bird
                 score++;
-                SoundManager.PlaySound(SoundManager.Sound.Score);
+                FindObjectOfType<AudioManager>().Play(AudioManager.Sounds.Score);
             }
 
             if (pipe.GetXPosition() < x_destroy) {
