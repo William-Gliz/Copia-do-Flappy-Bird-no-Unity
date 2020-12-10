@@ -12,7 +12,7 @@ public class Bird : MonoBehaviour {
         return instance;
     }
 
-    public float jump_force = 100f;
+    public float jump_force = 60f;
 
     Rigidbody2D rb;
 

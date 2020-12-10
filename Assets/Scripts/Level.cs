@@ -179,16 +179,16 @@ public enum Difficulty {
             TimeBetweenSpawns = 1.6f;
             break;
         case Difficulty.Medium:
-            gapSize = 32f;
+            gapSize = 35f;
             TimeBetweenSpawns = 1.4f;
             break;
         case Difficulty.Hard:
-            gapSize = 27f;
-            TimeBetweenSpawns = 1.2f;
+            gapSize = 30f;
+            TimeBetweenSpawns = 1.3f;
             break;
         case Difficulty.Impossible:
-            gapSize = 24f;
-            TimeBetweenSpawns = 0.9f;
+            gapSize = 25f;
+            TimeBetweenSpawns = 1.3f;
             break;
         }
     }
