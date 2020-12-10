@@ -9,6 +9,8 @@ public class Level : MonoBehaviour {
     public const float Move_speed = 30f;
     private const float x_destroy = -100f;
     private const float x_spawn = 100f;
+    private const float cloud_spawn = 192f;
+    private const float cloud_destroy = -192f;
     private const float Bird_position = 0f;
 
     private static Level instance;
@@ -18,6 +20,8 @@ public class Level : MonoBehaviour {
     }
 
     private List<Pipe> pipeList;
+    private List<Transform> cloudsList;
+    private float cloudSpawnTimer;
     public int score = 0;
     private int pipesSpawned;
     private float pipeSpawnTimer = 2f;
@@ -42,6 +46,7 @@ public enum Difficulty {
     private void Awake() {
         instance = this;
         pipeList = new List<Pipe>();
+        SpawnInitialClouds();
         SetDifficulty(Difficulty.Easy);
         state = State.WaitingToStart;
     }
@@ -63,8 +68,63 @@ public enum Difficulty {
     private void Update() {
         if (state == State.Playing) {
             PipeMovement();
-            PipeSpawning();            
+            PipeSpawning();
+            HandleClouds();
         }
+    }
+
+    private void SpawnInitialClouds()
+    {
+        cloudsList = new List<Transform>();
+        Transform cloudsTransform;
+        cloudsTransform = Instantiate(GameAssets.GetInstance().pfClouds, new Vector3(0, 0, 0), Quaternion.identity);
+        cloudsList.Add(cloudsTransform);
+        cloudsTransform = Instantiate(GameAssets.GetInstance().pfClouds, new Vector3(cloud_spawn, 0, 0), Quaternion.identity);
+        cloudsList.Add(cloudsTransform);
+    }
+
+    private void SpawnNewCloud()
+    {
+        Transform cloudsTransform;
+        cloudsTransform = Instantiate(GameAssets.GetInstance().pfClouds, new Vector3(cloud_spawn, 0, 0), Quaternion.identity);
+        cloudsList.Add(cloudsTransform);
+    }
+
+    private void HandleClouds()
+    {
+        /*
+        // Handle Cloud Spawning
+        cloudSpawnTimer -= Time.deltaTime;
+        if (cloudSpawnTimer < 0)
+        {
+            // Time to spawn another cloud
+            float cloudSpawnTimerMax = 6f;
+            cloudSpawnTimer = cloudSpawnTimerMax;
+            Transform cloudTransform = Instantiate(GameAssets.GetInstance().pfClouds, new Vector3(cloud_spawn, 0, 0), Quaternion.identity);
+            cloudsList.Add(cloudTransform);
+        }
+        */
+
+        // Handle Cloud Moving
+        for (int i = 0; i < cloudsList.Count; i++)
+        {
+            Transform cloudTransform = cloudsList[i];
+            // Mover nuvens mais devagar, para efeito Parallax
+            cloudTransform.position += new Vector3(-1, 0, 0) * Move_speed * Time.deltaTime * 0.7f;
+
+            if (cloudTransform.position.x < cloud_destroy)
+            {
+                // Cloud past destroy point, destroy self
+                Destroy(cloudTransform.gameObject);
+                cloudsList.RemoveAt(i);
+                i--;
+
+                SpawnNewCloud();
+
+            }
+        }
+
+        
     }
         
     private void PipeSpawning() {
@@ -107,7 +167,7 @@ public enum Difficulty {
         }
     }
 
-    public int GetPipesPassedCount()
+    public int GetScore()
     {
         return score;
     }

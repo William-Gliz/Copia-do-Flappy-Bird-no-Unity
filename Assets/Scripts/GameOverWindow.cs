@@ -1,20 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class GameOverWindow : MonoBehaviour {
 
     private Text scoreText;
+    private Text highscoreText;
 
     private void Awake() {
-        scoreText = transform.Find("scoreText").GetComponent<Text>();
-        Debug.Log("GameOverWindow.Start");
+        scoreText = transform.Find("ScoreText").GetComponent<Text>();
+        highscoreText = transform.Find("HSText").GetComponent<Text>();
         
     }
 
     private void Start() {
         Bird.GetInstance().OnDied += Bird_OnDied;
+
+        if (Level.GetInstance().GetScore() > Score.GetHighscore())
+        {
+            // New Highscore
+            highscoreText.text = "New Highscore!";
+        }
+        else
+        {
+            highscoreText.text = "Highscore: " + Score.GetHighscore();
+        }
+
         Hide();
     }
 
@@ -25,13 +35,11 @@ public class GameOverWindow : MonoBehaviour {
 
     private void Hide()
     {
-        Debug.Log("Escondi");
         gameObject.SetActive(false);
     }
 
     private void Show()
     {
-        Debug.Log("Mostrei");
         gameObject.SetActive(true);
     }
 

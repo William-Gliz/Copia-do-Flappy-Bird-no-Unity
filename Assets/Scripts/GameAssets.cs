@@ -14,5 +14,6 @@ public class GameAssets : MonoBehaviour {
     }
 
     public Transform pipeBody;
+    public Transform pfClouds;
 
 }

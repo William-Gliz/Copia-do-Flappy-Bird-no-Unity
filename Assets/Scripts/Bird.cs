@@ -35,6 +35,7 @@ public class Bird : MonoBehaviour {
         state = State.WaitingToStart;
         rb.bodyType = RigidbodyType2D.Static;
         Debug.Log("Bird.Start");
+        Score.Start();  // Passo o evento Bird.OnDied para o script Score
         
     }
 
